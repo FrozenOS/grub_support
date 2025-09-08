@@ -21,8 +21,12 @@ _multiboot_header:
 	dd 0
 
 _start:
+	cli
 	mov esp, stack_top
-	jmp multiboot_loader_main
+	push ebx
+	push eax
+	call multiboot_loader_main
+	jmp $
 
 porte9_putc:
 	mov al, [esp+4]
