@@ -1,7 +1,9 @@
 #include "debug.h"
 
 void debugport_putc(char c) {
-	x86_out8(0xe9, c);
+#if (DEBUG_IO_PORT != 0x0)
+	x86_out8(DEBUG_IO_PORT, c);
+#endif
 }
 
 void debugport_printstr(const char *s) {
