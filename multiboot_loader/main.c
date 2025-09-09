@@ -7,6 +7,6 @@ void multiboot_loader_main(uint32_t multiboot_sig, struct MultibootInfoStruct *m
 	multiboot_init(multiboot_sig, multiboot_struct);
 
 	for (;;) {
-		porte9_putc('A');
+		debugport_putc('A');
 	}
 }

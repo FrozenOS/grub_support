@@ -1,5 +1,5 @@
 global _start
-global porte9_putc
+global x86_out8
 
 extern multiboot_loader_main
 extern stack_top
@@ -28,7 +28,10 @@ _start:
 	call multiboot_loader_main
 	jmp $
 
-porte9_putc:
-	mov al, [esp+4]
-	out 0xe9, al
+;; void x86_out8(uint16_t port, uint8_t value);
+;;                       [esp+8]        [esp+4]
+x86_out8:
+	mov edx, [esp+4]
+	mov eax, [esp+8]
+	out dx, al
 	ret

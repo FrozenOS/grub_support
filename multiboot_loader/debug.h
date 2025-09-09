@@ -3,8 +3,9 @@
 
 #include <stdint.h>
 
-char porte9_putc(char c);
-void porte9_printstr(const char *s);
-void porte9_printhex(uint64_t n, bool is_64bit);
+void x86_out8(uint16_t port, uint8_t value);
+void debugport_putc(char c);
+void debugport_printstr(const char *s);
+void debugport_printhex(uint64_t n, bool is_64bit);
 
 #endif
