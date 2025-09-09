@@ -8,7 +8,7 @@ bits 32
 
 _multiboot_header:
 	dd 0x1badb002
-	dd 4
+	dd 0x4
 	dd 0xe4524ffa
 	dd 0
 	dd 0

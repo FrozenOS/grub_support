@@ -3,8 +3,10 @@ TOOLCHAIN := gcc
 
 CROSS_COMPILE := $(ARCH)-elf-
 
+OBJS := entry.o main.o multiboot.o debug.o
+
 CC := $(CROSS_COMPILE)gcc
-CFLAGS := -fno-builtin -Wall -Wextra -ffreestanding
+CFLAGS := -std=c23 -fno-builtin -Wall -Wextra -ffreestanding
 
 ifeq ($(CONFIG), RELEASE)
 CFLAGS += -O2
@@ -13,7 +15,7 @@ CFLAGS += -Og -gdwarf-5
 ASFLAGS += -gdwarf
 endif
 
-multiboot_loader.elf : entry.o main.o
+multiboot_loader.elf : $(OBJS)
 	$(CROSS_COMPILE)ld -T multiboot_loader.ld $^ -o $@ -e _start
 
 entry.o : entry.asm

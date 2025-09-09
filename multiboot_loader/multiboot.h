@@ -34,4 +34,13 @@ struct MultibootInfoStruct {
 	uint8_t color_info[6];
 } __attribute__((packed));
 
+struct MultibootMMapEntry {
+	uint32_t size;
+	uint64_t base;
+	uint64_t length;
+	uint32_t type;
+} __attribute__((packed));
+
+void multiboot_init(uint32_t multiboot_sig, struct MultibootInfoStruct *multiboot_struct);
+
 #endif
