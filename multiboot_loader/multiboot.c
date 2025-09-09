@@ -4,9 +4,32 @@
 #include "multiboot.h"
 
 void multiboot_init(uint32_t multiboot_sig, struct MultibootInfoStruct *multiboot_struct) {
-	porte9_printstr("Sig: ");
+	porte9_printstr("Multiboot Sig: ");
 	porte9_printhex(multiboot_sig, false);
 	porte9_putc('\n');
+
+	if (multiboot_struct->flags & (1 << 2)) {
+		porte9_printstr("Command Line: ");
+		porte9_printstr((char *)multiboot_struct->cmdline);
+		porte9_putc('\n');
+	}
+
+	if (multiboot_struct->flags & (1 << 3)) {
+		porte9_printstr("Module count ");
+		porte9_printhex(multiboot_struct->mods_count, false);
+		porte9_putc('\n');
+
+		for (unsigned int cnt = 0; cnt < multiboot_struct->mods_count; cnt++) {
+			struct MultibootModuleEntry *module =
+				(struct MultibootModuleEntry *)(multiboot_struct->mods_addr +
+												cnt * sizeof(struct MultibootModuleEntry));
+			porte9_printstr("Module start ");
+			porte9_printhex(module->mod_start, false);
+			porte9_printstr(" end ");
+			porte9_printhex(module->mod_end, false);
+			porte9_putc('\n');
+		}
+	}
 
 	if (multiboot_struct->flags & (1 << 6)) {
 		porte9_printstr("Memory map addr ");
