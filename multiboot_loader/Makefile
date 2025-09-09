@@ -3,10 +3,13 @@ TOOLCHAIN := gcc
 
 CROSS_COMPILE := $(ARCH)-elf-
 
-OBJS := entry.o main.o multiboot.o debug.o
+ASM_SRC := entry.asm
+C_SRC := main.c multiboot.c debug.c
+
+OBJS := $(ASM_SRC:.asm=.o) $(C_SRC:.c=.o)
 
 CC := $(CROSS_COMPILE)gcc
-CFLAGS := -std=c23 -fno-builtin -Wall -Wextra -ffreestanding
+CFLAGS := -std=c23 -pedantic -MMD -fno-builtin -Wall -Wextra -ffreestanding
 
 ifeq ($(CONFIG), RELEASE)
 CFLAGS += -O2
@@ -23,4 +26,6 @@ entry.o : entry.asm
 
 .PHONY: clean
 clean:
-	rm -rf *.o *.elf
+	rm -rf *.o *.d *.elf
+
+-include $(C_SRC:.c=.d)
