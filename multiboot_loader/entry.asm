@@ -1,3 +1,5 @@
+section .text
+
 global _start
 global x86_out8
 
@@ -21,7 +23,15 @@ _multiboot_header:
 	dd 0
 
 _start:
+	; Disable interrupts
 	cli
+
+	; Ensure paging is disabled
+	mov eax, cr0
+	and eax, 0x7fffffff
+	mov cr0, eax
+
+	; Setup stack
 	mov esp, stack_top
 	push ebx
 	push eax

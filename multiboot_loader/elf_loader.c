@@ -1,18 +1,10 @@
 #include <stddef.h>
 #include <stdint.h>
 
+#include "common.h"
 #include "debug.h"
 #include "elf.h"
 #include "elf_loader.h"
-
-static inline void *memcpy(void *restrict dest, const void *restrict src, size_t size) {
-	uint8_t *d = dest;
-	const uint8_t *s = src;
-	for (size_t i = 0; i < size; i++) {
-		d[i] = s[i];
-	}
-	return dest;
-}
 
 void load_elf_image(void *elf_image_base_addr, uint64_t *entry_point) {
 	struct ELF64FileHeader *elf_file_header = elf_image_base_addr;
@@ -27,6 +19,8 @@ void load_elf_image(void *elf_image_base_addr, uint64_t *entry_point) {
 		debugport_printstr("Kernel image not x86-64, abort");
 		for (;;) {}
 	}
+
+	*entry_point = elf_file_header->e_entry;
 
 	for (int ph_idx = 0; ph_idx < elf_file_header->e_phnum; ph_idx++) {
 		struct ELF64ProgramHeader *elf_prog_header =

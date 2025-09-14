@@ -27,9 +27,14 @@ SECTIONS {
 		*(.bss)
 		. = ALIGN(0x1000);
 		. += 0x4000; /* 16kB of stack memory */
+		PROVIDE(stack_top = .);
+		PROVIDE(p4_table = .);
+		. += 0x1000; /* 4kB PML4 table */
+		PROVIDE(p3_table = .);
+		. += 0x1000; /* 4kB PDPT table */
+		PROVIDE(p2_table = .);
+		. += 0x1000; /* 4kB PD table */
 	}
-
-	PROVIDE(stack_top = .);
 
 	/DISCARD/ : {
 		*(.eh_frame .note.GNU-stack)

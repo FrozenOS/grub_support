@@ -3,7 +3,7 @@ TOOLCHAIN := gcc
 
 CROSS_COMPILE := $(ARCH)-elf-
 
-ASM_SRC := entry.asm
+ASM_SRC := entry.asm launch_kernel.asm
 C_SRC := main.c multiboot.c debug.c elf_loader.c
 
 OBJS := $(ASM_SRC:.asm=.o) $(C_SRC:.c=.o)
@@ -23,7 +23,7 @@ endif
 multiboot_loader.elf : $(OBJS)
 	$(CROSS_COMPILE)ld -T multiboot_loader.ld $^ -o $@ -e _start
 
-entry.o : entry.asm
+%.o : %.asm
 	nasm -f elf32 $(ASFLAGS) $^ -o $@
 
 .PHONY: clean
