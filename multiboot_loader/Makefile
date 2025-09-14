@@ -4,7 +4,7 @@ TOOLCHAIN := gcc
 CROSS_COMPILE := $(ARCH)-elf-
 
 ASM_SRC := entry.asm
-C_SRC := main.c multiboot.c debug.c
+C_SRC := main.c multiboot.c debug.c elf_loader.c
 
 OBJS := $(ASM_SRC:.asm=.o) $(C_SRC:.c=.o)
 

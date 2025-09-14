@@ -48,6 +48,7 @@ struct MultibootModuleEntry {
 	uint32_t reserved;
 } __attribute__((packed));
 
-void multiboot_init(uint32_t multiboot_sig, struct MultibootInfoStruct *multiboot_struct);
+void multiboot_init(uint32_t multiboot_sig, struct MultibootInfoStruct *multiboot_struct,
+					uint32_t *kernel_elf_base_addr);
 
 #endif
