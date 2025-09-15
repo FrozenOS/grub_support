@@ -3,7 +3,8 @@
 #include "debug.h"
 #include "multiboot.h"
 
-void multiboot_init(uint32_t multiboot_sig, struct MultibootInfoStruct *multiboot_struct) {
+void multiboot_init(uint32_t multiboot_sig, struct MultibootInfoStruct *multiboot_struct,
+					uint32_t *kernel_elf_base_addr) {
 	debugport_printstr("Multiboot Sig: ");
 	debugport_printhex(multiboot_sig, false);
 	debugport_putc('\n');
@@ -28,6 +29,10 @@ void multiboot_init(uint32_t multiboot_sig, struct MultibootInfoStruct *multiboo
 			debugport_printstr(" end ");
 			debugport_printhex(module->mod_end, false);
 			debugport_putc('\n');
+
+			if (cnt == 0) {
+				*kernel_elf_base_addr = module->mod_start;
+			}
 		}
 	}
 
